@@ -10,6 +10,7 @@ const BPF_MAP_GET_NEXT_KEY: i32 = 4;
 pub struct Map {
     pub(crate) name: String,
     pub(crate) fd: i32,
+    pub(crate) handle: u64,
 }
 
 impl Map {

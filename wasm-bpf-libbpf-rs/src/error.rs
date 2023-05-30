@@ -15,4 +15,6 @@ pub enum Error {
     FailedToDelete(i32),
     #[error("Failed to update element, return code = {0}")]
     FailedToUpdate(i32),
+    #[error("Failed to poll to buffer, return code = {0}")]
+    FailedToPoll(i32),
 }

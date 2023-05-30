@@ -56,6 +56,7 @@ impl Object {
             Some(Map {
                 name: name.as_ref().to_string(),
                 fd,
+                handle: self.handle,
             })
         }
     }
