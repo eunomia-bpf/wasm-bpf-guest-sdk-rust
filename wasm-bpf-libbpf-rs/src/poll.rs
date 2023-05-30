@@ -10,9 +10,9 @@ use wasm_bpf_binding::binding::wasm_bpf_buffer_poll;
 
 use crate::{map::Map, Error, Result};
 
-pub trait SampleCallback: FnMut(&[u8]) {}
+pub trait SampleCallback: FnMut(&[u8]) -> i32 {}
 
-impl<T> SampleCallback for T where T: FnMut(&[u8]) {}
+impl<T> SampleCallback for T where T: FnMut(&[u8]) -> i32 {}
 
 struct CallbackStruct<'b> {
     sample_callback: Option<Box<dyn SampleCallback + 'b>>,
@@ -48,12 +48,14 @@ impl<'a, 'b> PollBuilder<'a, 'b> {
     }
 }
 
-unsafe extern "C" fn call_sample_cb(ctx: *mut c_void, data: *mut c_void, sz: u32) {
+unsafe extern "C" fn call_sample_cb(ctx: *mut c_void, data: *mut c_void, sz: u32) -> i32 {
     let callback_struct = ctx as *mut CallbackStruct;
 
     if let Some(cb) = unsafe { &mut (*callback_struct).sample_callback } {
         let slice = unsafe { slice::from_raw_parts(data as *const u8, sz as usize) };
-        cb(slice);
+        cb(slice)
+    } else {
+        0
     }
 }
 
