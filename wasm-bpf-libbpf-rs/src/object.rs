@@ -14,7 +14,7 @@ use crate::{map::Map, prog::Program, Error, Result};
 pub struct ObjectBuilder {}
 
 impl ObjectBuilder {
-    pub fn open_memory<T: AsRef<str>>(&mut self, mem: &[u8]) -> Result<OpenObject> {
+    pub fn open_memory(&mut self, mem: &[u8]) -> Result<OpenObject> {
         Ok(OpenObject { buf: mem.to_vec() })
     }
 }
