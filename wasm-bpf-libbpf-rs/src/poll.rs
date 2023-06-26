@@ -78,7 +78,7 @@ impl<'b> Poll<'b> {
                 self.data_buf.len() as i32,
                 timeout.as_millis() as i32,
             );
-            if ret != 0 {
+            if ret < 0 {
                 Err(Error::FailedToPoll(ret))
             } else {
                 Ok(())
