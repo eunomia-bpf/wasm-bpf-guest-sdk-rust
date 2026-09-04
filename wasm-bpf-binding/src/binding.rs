@@ -69,6 +69,17 @@ pub fn wasm_attach_bpf_program(obj: BpfObjectSkel, name: u32, attach_target: u32
         ret
     }
 }
+pub fn wasm_attach_bpf_program_fd(obj: BpfObjectSkel, name: u32, target_fd: i32) -> i32 {
+    unsafe {
+        #[link(wasm_import_module = "wasm_bpf")]
+        extern "C" {
+            #[link_name = "wasm_attach_bpf_program_fd"]
+            fn wit_import(_: i64, _: i32, _: i32) -> i32;
+        }
+        let ret = wit_import(obj as i64, name as i32, target_fd as i32);
+        ret
+    }
+}
 pub fn wasm_load_bpf_object(obj_buf: u32, obj_buf_sz: i32) -> BpfObjectSkel {
     unsafe {
         #[link(wasm_import_module = "wasm_bpf")]
