@@ -69,6 +69,13 @@ pub fn wasm_attach_bpf_program(obj: BpfObjectSkel, name: u32, attach_target: u32
         ret
     }
 }
+/// Attaches a program from `obj` to a hook selected by `target_fd`.
+///
+/// `name` is the guest-memory address of the program's NUL-terminated name.
+/// `target_fd` is a guest file descriptor for a directory preopened by the
+/// runtime; a negative value asks the runtime to derive the hook from the
+/// program section. Returns `0` on success or a runtime-specific negative
+/// value on failure.
 pub fn wasm_attach_bpf_program_fd(obj: BpfObjectSkel, name: u32, target_fd: i32) -> i32 {
     unsafe {
         #[link(wasm_import_module = "wasm_bpf")]
